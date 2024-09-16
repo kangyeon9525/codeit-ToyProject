@@ -1,0 +1,23 @@
+{
+  "name": "codeit-toyproject",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.0",
+    "@prisma/client": "5.19.1",
+    "prisma": "5.19.1",
+    "superstruct": "2.0.2",
+    "dotenv": "16.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
