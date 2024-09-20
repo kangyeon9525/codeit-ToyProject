@@ -237,4 +237,28 @@ export const verifyGroupPassword = async (req, res, next) => {
   } catch (error) {
     next(error); // 에러 처리 미들웨어로 전달
   }
-}
+};
+
+// 그룹 공감하기 함수
+export const likeGroup = async (req, res, next) => {
+  try {
+    const { groupId } = req.params;
+
+    // 그룹 찾기
+    const group = await Group.findById(groupId);
+    if (!group) {
+      return res.status(404).json({ message: '존재하지 않습니다' });
+    }
+
+    // 그룹 공감수 증가
+    group.likeCount += 1;
+
+    // 변경사항 저장
+    await group.save();
+
+    // 성공 응답
+    res.status(200).json({ message: '그룹 공감하기 성공' });
+  } catch (error) {
+    next(error); // 에러 처리 미들웨어로 전달
+  }
+};
