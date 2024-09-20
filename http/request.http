@@ -2,9 +2,21 @@ POST http://localhost:3000/api/groups
 Content-Type: application/json
 
 {
-  "name": "kangyeon9525",
+  "name": "kky9525",
   "password": "kky1212",
   "imageUrl": "url",
   "isPublic": true,
   "introduction": "설명"
 }
+
+###
+
+GET http://localhost:3000/api/groups?page=1&pageSize=10
+
+###
+
+GET http://localhost:3000/api/groups?page=1&pageSize=10&sortBy=mostLiked&keyword=kangyeon&isPublic=true
+
+###
+
+GET http://localhost:3000/api/groups?page=1&pageSize=10&sortBy=mostLiked&keyword=kky&isPublic=true
