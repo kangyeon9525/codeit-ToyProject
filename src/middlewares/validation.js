@@ -52,3 +52,18 @@ export const validateDeleteGroupRequest = (req, res, next) => {
 
   next();
 };
+
+// 그룹 상세 조회 요청 유효성 검사 미들웨어
+export const validateGroupDetailRequest = (req, res, next) => {
+  const { groupId } = req.params;
+
+  // groupId를 숫자로 변환 시도
+  const parsedId = Number(groupId);
+
+  // 숫자로 변환되지 않거나 음수일 경우 유효하지 않음
+  if (isNaN(parsedId) || parsedId < 0) {
+    return res.status(400).json({ message: '잘못된 요청입니다: groupId는 유효한 양의 숫자여야 합니다.' });
+  }
+
+  next();
+}

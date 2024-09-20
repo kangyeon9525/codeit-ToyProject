@@ -178,3 +178,33 @@ export const deleteGroup = async (req, res, next) => {
     next(error); // 에러 처리 미들웨어로 전달
   }
 };
+
+// 그룹 상세 정보 조회 함수
+export const getGroupDetail = async (req, res, next) => {
+  try {
+    const { groupId } = req.params;
+
+    // 그룹 찾기
+    const group = await Group.findById(groupId);
+    if (!group) {
+      return res.status(404).json({ message: '존재하지 않습니다' });
+    }
+
+    // 그룹 상세 정보 반환
+    const groupDetail = {
+      id: group._id,
+      name: group.name,
+      imageUrl: group.imageUrl,
+      isPublic: group.isPublic,
+      likeCount: group.likeCount,
+      badges: group.badges,
+      postCount: group.postCount,
+      createdAt: group.createdAt,
+      introduction: group.introduction,
+    };
+
+    res.status(200).json(groupDetail);
+  } catch (error) {
+    next(error); // 에러 처리 미들웨어로 전달
+  }
+};
