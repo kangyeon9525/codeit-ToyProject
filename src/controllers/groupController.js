@@ -38,7 +38,7 @@ export const registerGroup = async (req, res, next) => {
   } catch (error) {
     next(error); // 에러는 다음 미들웨어로 전달
   }
-}
+};
 
 // 그룹 목록 조회 함수
 export const getGroups = async (req, res, next) => {
@@ -98,5 +98,55 @@ export const getGroups = async (req, res, next) => {
     });
   } catch (error) {
     next(error); // 에러 발생 시 미들웨어로 전달
+  }
+};
+
+// 그룹 수정 함수
+export const updateGroup = async (req, res, next) => {
+  try {
+    const { groupId } = req.params; // 그룹 ID 추출
+    const {
+      name,
+      password,
+      imageUrl,
+      isPublic,
+      introduction
+    } = req.body;
+
+    // 그룹 찾기
+    const group = await Group.findById(groupId);
+    if (!group) {
+      return res.status(404).json({ message: '존재하지 않습니다' }); // 그룹이 존재 X
+    }
+
+    // 비밀번호 검증
+    const isPasswordValid = await bcrypt.compare(password, group.password);
+    if (!isPasswordValid) {
+      return res.status(403).json({ message: '비밀번호가 틀렸습니다' }); // 비밀번호 불일치
+    }
+
+    // 그룹 정보 업데이트
+    group.name = name || group.name;
+    group.imageUrl = imageUrl || group.imageUrl;
+    group.isPublic = typeof isPublic === 'boolean' ? isPublic : group.isPublic;
+    group.introduction = introduction || group.introduction;
+
+    // 그룹 저장
+    const updatedGroup = await group.save();
+
+    // 성공 응답
+    return res.status(200).json({
+      id: updatedGroup._id,
+      name: updatedGroup.name,
+      imageUrl: updatedGroup.imageUrl,
+      isPublic: updatedGroup.isPublic,
+      likeCount: updatedGroup.likeCount,
+      badges: updatedGroup.badges,
+      postCount: updatedGroup.postCount,
+      createdAt: updatedGroup.createdAt,
+      introduction: updatedGroup.introduction
+    });
+  } catch (error) {
+    next(error); // 에러 처리 미들웨어로 전달
   }
 };

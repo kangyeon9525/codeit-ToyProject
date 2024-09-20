@@ -20,3 +20,16 @@ GET http://localhost:3000/api/groups?page=1&pageSize=10&sortBy=mostLiked&keyword
 ###
 
 GET http://localhost:3000/api/groups?page=1&pageSize=10&sortBy=mostLiked&keyword=kky&isPublic=true
+
+### 
+
+PUT http://localhost:3000/api/groups/2
+Content-Type: application/json
+
+{
+  "name": "group1",
+  "password": "kky1212",
+  "imageUrl": "https://example.com/new-image.jpg",
+  "isPublic": true,
+  "introduction": "새로운 그룹 소개"
+}
