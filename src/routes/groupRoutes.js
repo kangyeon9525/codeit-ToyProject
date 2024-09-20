@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerGroup, getGroups, updateGroup, deleteGroup, getGroupDetail, verifyGroupPassword, likeGroup } from '../controllers/groupController.js';
+import { registerGroup, getGroups, updateGroup, deleteGroup, getGroupDetail, verifyGroupPassword, likeGroup, checkGroupIsPublic } from '../controllers/groupController.js';
 import { errorHandler } from '../middlewares/errorHandler.js';
 import { validateGroupRequest, validateUpdateGroupRequest, validateDeleteGroupRequest, 
   validateGroupDetailRequest, validateVerifyPasswordRequest} from '../middlewares/validation.js';
@@ -26,6 +26,9 @@ router.post('/groups/:groupId/verify-password', validateVerifyPasswordRequest, v
 
 // 그룹 공감하기 라우트
 router.post('/groups/:groupId/like', likeGroup);
+
+// 그룹 공개 여부 확인 라우트
+router.get('/groups/:groupId/is-public', checkGroupIsPublic);
 
 // 에러 핸들러 미들웨어
 router.use(errorHandler);

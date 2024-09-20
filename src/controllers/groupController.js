@@ -262,3 +262,24 @@ export const likeGroup = async (req, res, next) => {
     next(error); // 에러 처리 미들웨어로 전달
   }
 };
+
+// 그룹 공개 여부 확인 함수
+export const checkGroupIsPublic = async (req, res, next) => {
+  try {
+    const { groupId } = req.params;
+
+    // 그룹 찾기
+    const group = await Group.findById(groupId);
+    if (!group) {
+      return res.status(404).json({ message: '존재하지 않습니다' });
+    }
+
+    // 공개 여부 반환
+    res.status(200).json({
+      id: group._id,
+      isPublic: group.isPublic
+    });
+  } catch (error) {
+    next(error); // 에러 처리 미들웨어로 전달
+  }
+};
