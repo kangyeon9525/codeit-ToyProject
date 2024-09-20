@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "name": "kky9525",
-  "password": "kky1212",
+  "password": "kky1212!",
   "imageUrl": "url",
   "isPublic": true,
   "introduction": "설명"
@@ -33,3 +33,13 @@ Content-Type: application/json
   "isPublic": true,
   "introduction": "새로운 그룹 소개"
 }
+
+###
+
+DELETE http://localhost:3000/api/groups/3
+Content-Type: application/json
+
+{
+  "password": "kky1212"
+}
+###

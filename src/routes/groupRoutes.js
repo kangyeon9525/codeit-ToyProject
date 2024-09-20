@@ -1,8 +1,7 @@
 import express from 'express';
-import { registerGroup, getGroups, updateGroup } from '../controllers/groupController.js';
+import { registerGroup, getGroups, updateGroup, deleteGroup } from '../controllers/groupController.js';
 import { errorHandler } from '../middlewares/errorHandler.js';
-import { validateGroupRequest } from '../middlewares/validation.js';
-import { validateUpdateGroupRequest } from '../middlewares/updateValidation.js';
+import { validateGroupRequest, validateUpdateGroupRequest, validateDeleteGroupRequest } from '../middlewares/validation.js';
 
 const router = express.Router();
 
@@ -14,6 +13,9 @@ router.get('/groups', getGroups);
 
 // 그룹 수정 라우트
 router.put('/groups/:groupId', validateUpdateGroupRequest, updateGroup);
+
+// 그룹 삭제 라우트
+router.delete('/groups/:groupId', validateDeleteGroupRequest, deleteGroup);
 
 // 에러 핸들러 미들웨어
 router.use(errorHandler);

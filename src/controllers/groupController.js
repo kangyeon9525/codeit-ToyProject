@@ -150,3 +150,31 @@ export const updateGroup = async (req, res, next) => {
     next(error); // 에러 처리 미들웨어로 전달
   }
 };
+
+// 그룹 삭제 함수
+export const deleteGroup = async (req, res, next) => {
+  try {
+    const { groupId } = req.params; // 그룹 ID 추출
+    const { password } = req.body; // 요청에서 비밀번호 추출
+
+    // 그룹 찾기
+    const group = await Group.findById(groupId);
+    if (!group) {
+      return res.status(404).json({ message: '존재하지 않습니다' });
+    }
+
+    // 비밀번호 검증
+    const isPasswordValid = await bcrypt.compare(password, group.password);
+    if (!isPasswordValid) {
+      return res.status(403).json({ message: '비밀번호가 틀렸습니다' }); // 비밀번호 불일치
+    }
+
+    // 그룹 삭제
+    await Group.deleteOne({ _id: groupId });
+
+    // 삭제 성공 응답
+    return res.status(200).json({ message: '그룹 삭제 성공' });
+  } catch (error) {
+    next(error); // 에러 처리 미들웨어로 전달
+  }
+};
