@@ -66,4 +66,16 @@ export const validateGroupDetailRequest = (req, res, next) => {
   }
 
   next();
-}
+};
+
+// 그룹 비밀번호 확인 요청 유효성 검사 미들웨어
+export const validateVerifyPasswordRequest = (req, res, next) => {
+  const { password } = req.body;
+
+  // 비밀번호 필수 확인
+  if (!password) {
+    return res.status(400).json({ message: '잘못된 요청입니다: 비밀번호는 필수입니다' });
+  }
+
+  next();
+};

@@ -208,3 +208,33 @@ export const getGroupDetail = async (req, res, next) => {
     next(error); // 에러 처리 미들웨어로 전달
   }
 };
+
+// 그룹 조회 권한 확인 함수
+export const verifyGroupPassword = async (req, res, next) => {
+  try {
+    const { groupId } = req.params;
+    const { password } = req.body;
+
+    // 그룹 찾기
+    const group = await Group.findById(groupId);
+    if (!group) {
+      return res.status(404).json({ message: '존재하지 않습니다' });
+    }
+
+    // 비공개 그룹 여부 확인
+    if (group.isPublic) {
+      return res.status(400).json({ message: '이 그룹은 비공개 그룹이 아닙니다.' });
+    }
+
+    // 비밀번호 검증
+    const isPasswordValid = await bcrypt.compare(password, group.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: '비밀번호가 틀렸습니다' });
+    }
+
+    // 비밀번호 확인 성공 응답
+    res.status(200).json({ message: '비밀번호가 확인되었습니다' });
+  } catch (error) {
+    next(error); // 에러 처리 미들웨어로 전달
+  }
+}

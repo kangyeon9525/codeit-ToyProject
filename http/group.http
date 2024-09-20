@@ -3,9 +3,9 @@ Content-Type: application/json
 
 {
   "name": "kky9525",
-  "password": "kky1212!",
+  "password": "kky1212",
   "imageUrl": "url",
-  "isPublic": true,
+  "isPublic": false,
   "introduction": "설명"
 }
 
@@ -13,7 +13,12 @@ Content-Type: application/json
 
 GET http://localhost:3000/api/groups?page=1&pageSize=10
 
-###
+### page = 현페이지, pageSize = 페이지 크기, sortBy = 정렬 기준, keyword = 검색어, isPublic = 공개/비공개
+# 정렬 기준 설정
+# latest 최신순
+# mostPosted 게시글 많은순
+# mostLiked 공감순
+# mostBadge 획득 배지순
 
 GET http://localhost:3000/api/groups?page=1&pageSize=10&sortBy=mostLiked&keyword=kangyeon&isPublic=true
 
@@ -42,4 +47,17 @@ Content-Type: application/json
 {
   "password": "kky1212"
 }
+###
+
+GET http://localhost:3000/api/groups/1
+
+###
+
+POST http://localhost:3000/api/groups/6/verify-password
+Content-Type: application/json
+
+{
+  "password": "kky1212"
+}
+
 ###

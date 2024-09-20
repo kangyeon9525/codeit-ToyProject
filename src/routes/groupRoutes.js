@@ -1,8 +1,8 @@
 import express from 'express';
-import { registerGroup, getGroups, updateGroup, deleteGroup, getGroupDetail } from '../controllers/groupController.js';
+import { registerGroup, getGroups, updateGroup, deleteGroup, getGroupDetail, verifyGroupPassword } from '../controllers/groupController.js';
 import { errorHandler } from '../middlewares/errorHandler.js';
 import { validateGroupRequest, validateUpdateGroupRequest, validateDeleteGroupRequest, 
-  validateGroupDetailRequest } from '../middlewares/validation.js';
+  validateGroupDetailRequest, validateVerifyPasswordRequest} from '../middlewares/validation.js';
 
 const router = express.Router();
 
@@ -20,6 +20,9 @@ router.delete('/groups/:groupId', validateDeleteGroupRequest, deleteGroup);
 
 // 그룹 상세 정보 조회 라우트
 router.get('/groups/:groupId', validateGroupDetailRequest, getGroupDetail);
+
+// 그룹 조회 권한 확인 라우트
+router.post('/groups/:groupId/verify-password', validateVerifyPasswordRequest, verifyGroupPassword);
 
 // 에러 핸들러 미들웨어
 router.use(errorHandler);
