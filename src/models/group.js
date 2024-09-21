@@ -19,7 +19,7 @@ const groupSchema = new mongoose.Schema(
   },
 );
 
-groupSchema.plugin(AutoIncrement, { inc_field: '_id' });
+groupSchema.plugin(AutoIncrement, { inc_field: '_id', id: 'groupIdCounter' });
 
 const Group = mongoose.model('Group', groupSchema);
 

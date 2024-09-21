@@ -2,9 +2,9 @@ POST http://localhost:3000/api/groups
 Content-Type: application/json
 
 {
-  "name": "kky9525",
+  "name": "group4",
   "password": "kky1212",
-  "imageUrl": "url",
+  "imageUrl": "www.example.com",
   "isPublic": false,
   "introduction": "설명"
 }
@@ -20,7 +20,7 @@ GET http://localhost:3000/api/groups?page=1&pageSize=10
 # mostLiked 공감순
 # mostBadge 획득 배지순
 
-GET http://localhost:3000/api/groups?page=1&pageSize=10&sortBy=mostLiked&keyword=kangyeon&isPublic=true
+GET http://localhost:3000/api/groups?page=1&pageSize=10&sortBy=mostLiked&keyword=group&isPublic=true
 
 ###
 
@@ -53,7 +53,7 @@ GET http://localhost:3000/api/groups/1
 
 ###
 
-POST http://localhost:3000/api/groups/6/verify-password
+POST http://localhost:3000/api/groups/4/verify-password
 Content-Type: application/json
 
 {

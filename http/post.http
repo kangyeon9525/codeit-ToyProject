@@ -1,0 +1,15 @@
+POST http://localhost:3000/api/groups/1/posts
+Content-Type: application/json
+
+{
+	"nickname": "kangyeon",
+	"title": "제목2",
+	"content": "내용",
+	"postPassword": "rkddus12",
+	"groupPassword": "kky1212",
+	"imageUrl": "http://www.example.com",
+	"tags": [ "string", "string" ],
+	"location": "위치",
+	"moment": "2024-02-21",
+	"isPublic": true
+}
