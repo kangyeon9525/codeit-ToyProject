@@ -1,6 +1,6 @@
 import express from 'express';
-import { createPost, getPosts } from '../controllers/postController.js';
-import { validatePostRequest, validateGetPostsRequest } from '../middlewares/postsValidation.js';
+import { createPost, getPosts, updatePost } from '../controllers/postController.js';
+import { validatePostRequest, validateGetPostsRequest, validateUpdatePostRequest } from '../middlewares/postsValidation.js';
 
 const router = express.Router();
 
@@ -8,6 +8,10 @@ const router = express.Router();
 router.route('/groups/:groupId/posts')
   .post(validatePostRequest, createPost) // 게시글 등록 라우트
   .get(validateGetPostsRequest, getPosts); // 게시글 목록 조회 라우트
+
+// 게시글 수정 라우트
+router.route('/posts/:postId')
+  .put(validateUpdatePostRequest, updatePost); // 게시글 수정 라우트
 
 
 export default router;

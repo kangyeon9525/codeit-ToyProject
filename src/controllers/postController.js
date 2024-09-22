@@ -142,3 +142,65 @@ export const getPosts = async (req, res, next) => {
     next(error); // 에러 처리 미들웨어로 전달
   }
 };
+
+// 게시글 수정 함수
+export const updatePost = async (req, res, next) => {
+  try {
+    const { postId } = req.params;
+    const {
+      nickname,
+      title,
+      content,
+      postPassword,
+      imageUrl,
+      tags,
+      location,
+      moment,
+      isPublic
+    } = req.body;
+
+    // 게시글 찾기
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: '존재하지 않습니다' });
+    } 
+
+    // 게시글 비밀번호 검증
+    const isPasswordValid = await bcrypt.compare(postPassword, post.postPassword);
+    if (!isPasswordValid) {
+      return res.status(403).json({ message: '비밀번호가 틀렸습니다' });
+    }
+
+    // 게시글 정보 업데이트
+    post.nickname = nickname || post.nickname;
+    post.title = title || post.title;
+    post.content = content || post.content;
+    post.imageUrl = imageUrl || post.imageUrl;
+    post.tags = tags || post.tags;
+    post.location = location || post.location;
+    post.moment = moment || post.moment;
+    post.isPublic = typeof isPublic === 'boolean' ? isPublic : post.isPublic;
+
+    // 게시글 저장
+    const updatedPost = await post.save();
+
+    // 성공 응답
+    return res.status(200).json({
+      id: updatedPost._id,
+      groupId: updatedPost.groupId,
+      nickname: updatedPost.nickname,
+      title: updatedPost.title,
+      content: updatedPost.content,
+      imageUrl: updatedPost.imageUrl,
+      tags: updatedPost.tags,
+      location: updatedPost.location,
+      moment: updatedPost.moment,
+      isPublic: updatedPost.isPublic,
+      likeCount: updatedPost.likeCount,
+      commentCount: updatedPost.commentCount,
+      createdAt: updatedPost.createdAt,
+    });
+  } catch (error) {
+    next(error); // 에러 처리 미들웨어로 전달
+  }
+};

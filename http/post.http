@@ -31,3 +31,17 @@ GET http://localhost:3000/api/groups/1/posts?page=1&pageSize=10&sortBy=latest&is
 
 ###
 
+PUT http://localhost:3000/api/posts/1
+Content-Type: application/json
+
+{
+	"nickname": "kangyeon1",
+	"title": "제목2-1",
+	"content": "내용2-1",
+	"postPassword": "rkddus12",
+	"imageUrl": "http://www.example1.com",
+	"tags": [ "string1", "string2" ],
+	"location": "위치2-1",
+	"moment": "2024-02-22",
+	"isPublic": false
+}
