@@ -204,3 +204,31 @@ export const updatePost = async (req, res, next) => {
     next(error); // 에러 처리 미들웨어로 전달
   }
 };
+
+// 게시글 삭제 함수
+export const deletePost = async (req, res, next) => {
+  try {
+    const { postId } = req.params;
+    const { postPassword } = req.body;
+
+    // 게시글 찾기
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: '존재하지 않습니다' });
+    }
+
+    // 게시글 비밀번호 검증
+    const isPasswordValid = await bcrypt.compare(postPassword, post.postPassword);
+    if (!isPasswordValid) {
+      return res.status(403).json({ message: '비밀번호가 틀렸습니다' });
+    }
+
+    // 게시글 삭제
+    await Post.deleteOne({ id: postId });
+
+    // 성공 응답
+    return res.status(200).json({ message: '게시글 삭제 성공' });
+  } catch (error) {
+    next(error); // 에러 처리 미들웨어로 전달
+  }
+};

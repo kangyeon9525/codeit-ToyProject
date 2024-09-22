@@ -88,3 +88,24 @@ export const validateUpdatePostRequest = (req, res, next) => {
   // 모든 검증을 통과하면 다음 미들웨어로 이동
   next();
 };
+
+// 게시글 삭제 요청 유효성 검사 미들웨어
+export const validateDeletePostRequest = (req, res, next) => {
+  const { postPassword } = req.body;
+
+  // 허용된 필드만 존재하는지 확인
+  const allowedFields = ['postPassword'];
+  const requestFields = Object.keys(req.body);
+
+  const invalidFields = requestFields.filter(field => !allowedFields.includes(field));
+  if (invalidFields.length > 0) {
+    return res.status(400).json({ message: `잘못된 요청입니다: 허용되지 않은 필드가 포함되어 있습니다 (${invalidFields.join(', ')})` });
+  }
+
+  // 비밀번호 필수 확인
+  if (!postPassword) {
+    return res.status(400).json({ message: '잘못된 요청입니다: 비밀번호는 필수입니다' });
+  }
+
+  next();
+};

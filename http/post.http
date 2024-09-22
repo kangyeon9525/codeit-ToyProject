@@ -45,3 +45,12 @@ Content-Type: application/json
 	"moment": "2024-02-22",
 	"isPublic": false
 }
+
+###
+
+DELETE http://localhost:3000/api/posts/3
+Content-Type: application/json
+
+{
+	"postPassword": "rkddus12"
+}
