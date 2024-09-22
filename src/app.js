@@ -1,9 +1,11 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { DATABASE_URL } from './env.js';
+import * as dotenv from 'dotenv';
 import { errorHandler } from '../src/middlewares/errorHandler.js';
 import groupRoutes from '../src/routes/groupRoutes.js';
 import postRoutes from '../src/routes/postRoutes.js';
+
+dotenv.config();
 
 const app = express();
 
@@ -18,7 +20,7 @@ app.use('/api', postRoutes); // 게시글 라우터
 app.use(errorHandler)
 
 
-mongoose.connect(DATABASE_URL)
+mongoose.connect(process.env.DATABASE_URL)
   .then(() => console.log('Connected to DB'))
   .catch((err) => console.log('DB 연결 실패', err));
-app.listen(3000, () => console.log('Server Started'));
+app.listen(process.env.PORT || 3000, () => console.log('Server Started'));
