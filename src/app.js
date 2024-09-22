@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
+import cors from 'cors';
 import { errorHandler } from '../src/middlewares/errorHandler.js';
 import groupRoutes from '../src/routes/groupRoutes.js';
 import postRoutes from '../src/routes/postRoutes.js';
@@ -9,8 +10,14 @@ dotenv.config();
 
 const app = express();
 
-// JSON 요청 처리하기 위한 미들웨어 추가
-app.use(express.json());
+/* 추후 특정 주소에 대해서만 CORS허용 할 때
+const corsOptions = {
+  origin: ['http://127.0.0.1:3000', 'http://zogakzip.com'],
+};
+*/
+
+app.use(cors()); // CORS 허용해 프론트엔드 코드에서 API 사용 가능
+app.use(express.json()); // JSON 요청 처리하기 위한 미들웨어 추가
 
 // 라우터 사용
 app.use('/api', groupRoutes); // 그룹 라우터
