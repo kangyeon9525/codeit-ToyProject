@@ -1,5 +1,5 @@
 import express from 'express';
-import { createPost, deletePost, getPostDetail, getPosts, updatePost, verifyPostPassword } from '../controllers/postController.js';
+import { createPost, deletePost, getPostDetail, getPosts, likePost, updatePost, verifyPostPassword } from '../controllers/postController.js';
 import { errorHandler } from '../middlewares/errorHandler.js';
 import { validatePostRequest, validateGetPostsRequest, validateUpdatePostRequest, validateDeletePostRequest, validateGetPostDetailRequest } from '../middlewares/postsValidation.js';
 
@@ -18,6 +18,9 @@ router.route('/posts/:postId')
 
 // 게시글 조회 권한 확인 라우트
 router.post('/posts/:postId/verify-password', verifyPostPassword);
+
+// 게시글 공감하기 라우트
+router.post('/posts/:postId/like', likePost);
 
 // 에러 핸들러 미들웨어
 router.use(errorHandler);

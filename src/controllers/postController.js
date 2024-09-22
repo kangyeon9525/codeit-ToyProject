@@ -297,3 +297,27 @@ export const verifyPostPassword = async (req, res, next) => {
     next(error); // 에러 처리 미들웨어로 전달
   }
 };
+
+// 게시글 공감하기 함수
+export const likePost = async (req, res, next) => {
+  try {
+    const { postId } = req.params;
+
+    // 게시글 찾기
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: '존재하지 않습니다' });
+    }
+
+    // 게시글 공감수 증가
+    post.likeCount += 1;
+
+    // 게시글 저장
+    await post.save();
+
+    // 성공 응답
+    return res.status(200).json({ message: '게시글 공감하기 성공' });
+  } catch (error) {
+    next(error); // 에러 처리 미들웨어로 전달
+  }
+}
