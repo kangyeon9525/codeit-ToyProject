@@ -16,14 +16,18 @@ Content-Type: application/json
 
 ###
 
-# groupId : number (필수) - 조회하려는 그룹의 ID
-# page : number (선택) - 페이지 번호 (기본값: 1)
-# pageSize : number (선택) - 페이지당 게시글 수 (기본값: 10)
-# sortBy : string (선택) - 정렬 기준 (latest, mostCommented, mostLiked 중 하나, 기본값: latest)
-# keyword : string (선택) - 검색어 (제목이나 태그에 포함된 검색어)
-# isPublic : boolean (선택) - 공개 여부 (true 또는 false)
+# groupId 그룹의 ID, page 페이지 번호, pageSize 페이지당 게시글 수 (기본값: 10), sortBy 정렬 기준 (기본값: latest)
+# keyword : string (선택) - 검색어 (제목이나 태그에 포함된 검색어), isPublic 공개 여부
+
+# 정렬 기준 설정
+# latest 최신순
+# mostCommented 답글 많은순
+# mostLiked 공감순
 GET http://localhost:3000/api/groups/1/posts
 
 ###
 
 GET http://localhost:3000/api/groups/1/posts?page=1&pageSize=10&sortBy=latest&isPublic=true
+
+###
+
