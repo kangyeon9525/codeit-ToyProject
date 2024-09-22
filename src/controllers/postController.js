@@ -232,3 +232,36 @@ export const deletePost = async (req, res, next) => {
     next(error); // 에러 처리 미들웨어로 전달
   }
 };
+
+export const getPostDetail = async (req, res, next) => {
+  try {
+    const { postId } = req.params;
+    
+    // 게시글 찾기
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: '존재하지 않습니다' });
+    }
+
+    // 게시글 상세 정보 반환
+    const postDetail = {
+      id: post._id,
+      groupId: post.groupId,
+      nickname: post.nickname,
+      title: post.title,
+      content: post.content,
+      imageUrl: post.imageUrl,
+      tags: post.tags,
+      location: post.location,
+      moment: post.moment,
+      isPublic: post.isPublic,
+      likeCount: post.likeCount,
+      commentCount: post.commentCount,
+      createdAt: post.createdAt
+    };
+
+    return res.status(200).json(postDetail);
+  } catch (error) {
+    next(error); // 에러 처리 미들웨어로 전달
+  }
+};

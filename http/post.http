@@ -1,13 +1,13 @@
-POST http://localhost:3000/api/groups/1/posts
+POST http://localhost:3000/api/groups/2/posts
 Content-Type: application/json
 
 {
-	"nickname": "kangyeon",
-	"title": "제목2",
-	"content": "내용",
+	"nickname": "별명6",
+	"title": "제목6",
+	"content": "내용6",
 	"postPassword": "rkddus12",
 	"groupPassword": "kky1212",
-	"imageUrl": "http://www.example.com",
+	"imageUrl": "http://www.example2.com",
 	"tags": [ "string", "string" ],
 	"location": "위치",
 	"moment": "2024-02-21",
@@ -54,3 +54,7 @@ Content-Type: application/json
 {
 	"postPassword": "rkddus12"
 }
+
+###
+
+GET http://localhost:3000/api/posts/1

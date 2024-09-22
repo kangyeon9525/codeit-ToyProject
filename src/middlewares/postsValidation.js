@@ -109,3 +109,18 @@ export const validateDeletePostRequest = (req, res, next) => {
 
   next();
 };
+
+// 게시글 상세 정보 조회 유효성 검사 미들웨어
+export const validateGetPostDetailRequest = (req, res, next) => {
+  const { postId } = req.params;
+
+  // postId를 숫자로 변환 시도
+  const parsedId = Number(postId);
+
+  // 숫자로 변환되지 않거나 음수일 경우 유효하지 않음
+  if (isNaN(parsedId) || parsedId < 0) {
+    return res.status(400).json({ message: '잘못된 요청입니다: postId는 유효한 양의 숫자여야 합니다.' });
+  }
+
+  next();
+}
