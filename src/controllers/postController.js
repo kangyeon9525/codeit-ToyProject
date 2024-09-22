@@ -233,6 +233,7 @@ export const deletePost = async (req, res, next) => {
   }
 };
 
+// 게시글 상세 조회 함수
 export const getPostDetail = async (req, res, next) => {
   try {
     const { postId } = req.params;
@@ -261,6 +262,37 @@ export const getPostDetail = async (req, res, next) => {
     };
 
     return res.status(200).json(postDetail);
+  } catch (error) {
+    next(error); // 에러 처리 미들웨어로 전달
+  }
+};
+
+// 게시글 조회 권한 확인 함수
+export const verifyPostPassword = async (req, res, next) => {
+  try {
+    const { postId } = req.params;
+    const { password } = req.body;
+
+    // 게시글 찾기
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: '존재하지 않습니다' });
+    }
+
+    // 비공개 그룹 여부 확인
+    if (post.isPublic) {
+      return res.status(400).json({ message: '이 게시글은 비공개 게시글이 아닙니다.' });
+    }
+
+    // 비밀번호 검증
+    const isPasswordValid = await bcrypt.compare(password, post.postPassword);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: '비밀번호가 틀렸습니다' });
+    }
+
+    // 비밀번호 확인 성공
+    return res.status(200).json({ message: '비밀번호가 확인되었습니다' });
+
   } catch (error) {
     next(error); // 에러 처리 미들웨어로 전달
   }
