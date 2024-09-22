@@ -320,4 +320,25 @@ export const likePost = async (req, res, next) => {
   } catch (error) {
     next(error); // 에러 처리 미들웨어로 전달
   }
-}
+};
+
+// 게시글 공개 여부 함수
+export const checkPostIsPublic = async (req, res, next) => {
+  try {
+    const { postId } = req.params;
+
+    // 게시글 찾기
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: '존재하지 않습니다' });
+    }
+
+    // 공개 여부 반환
+    res.status(200).json({
+      id: post._id,
+      isPublic: post.isPublic
+    });
+  } catch (error) {
+    next(error); // 에러 처리 미들웨어로 전달
+  }
+};
