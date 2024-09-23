@@ -2,7 +2,7 @@ import Comment from "../models/comment.js";
 import Post from "../models/post.js";
 import bcrypt from 'bcryptjs';
 
-// 댓글 등록 컨트롤러
+// 댓글 등록 함수
 export const createComment = async (req, res, next) => {
   try {
     const { postId } = req.params;
@@ -47,3 +47,45 @@ export const createComment = async (req, res, next) => {
     next(error); // 에러 처리 미들웨어로 전달
   }
 };
+
+// 댓글 목록 조회 함수
+export const getComments = async (req, res, next) => {
+  try {
+    const { postId } = req.params;
+    const {
+      page = 1,
+      pageSize = 10
+    } = req.query;
+
+    // 게시글에 대한 댓글 총 개수
+    const totalItemCount = await Comment.countDocuments({ postId });
+
+    // 페이지 계산
+    const totalPages = Math.ceil(totalItemCount / pageSize);
+    const skipItems = (page - 1) * pageSize;
+
+    // 댓글 목록 조회 (페이지네이션 적용)
+    const comments = await Comment.find({ postId })
+      .sort({ createdAt: -1 }) // 최신 순으로 정렬
+      .skip(skipItems)
+      .limit(parseInt(pageSize, 10)); // 페이지당 아이템 수 제한
+
+    // 응답 데이터 형식
+    const responseData = comments.map(comment => ({
+      id: comment._id,
+      nickname: comment.nickname,
+      content: comment.content,
+      createdAt: comment.createdAt,
+    }));
+
+    // 성공 응답
+    return res.status(200).json({
+      currentPage: parseInt(page, 10),
+      totalPages,
+      totalItemCount,
+      data: responseData,
+    });
+  } catch (error) {
+    next(error); // 에러 처리 미들웨어로 전달
+  }
+}
