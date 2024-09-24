@@ -49,3 +49,24 @@ export const validateUpdateCommentRequest = (req, res, next) => {
   // 다음 미들웨어로 진행
   next();
 };
+
+// 댓글 삭제 유효성 검사 미들웨어
+export const validateDeleteCommentRequest = (req, res, next) => {
+  const { password } = req.body;
+
+  // 허용된 필드만 존재하는지 확인
+  const allowedFields = ['password'];
+  const requestFields = Object.keys(req.body);
+
+  const invalidFields = requestFields.filter(field => !allowedFields.includes(field));
+  if (invalidFields.length > 0) {
+    return res.status(400).json({ message: `잘못된 요청입니다: 허용되지 않은 필드가 포함되어 있습니다 (${invalidFields.join(', ')})` });
+  }
+
+  // 비밀번호 필수 확인
+  if (!password) {
+    return res.status(400).json({ message: '잘못된 요청입니다: 비밀번호는 필수입니다' });
+  }
+
+  next();
+};

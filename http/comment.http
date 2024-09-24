@@ -1,4 +1,4 @@
-POST http://localhost:3000/api/posts/1/comments
+POST http://localhost:3000/api/posts/2/comments
 Content-Type: application/json
 
 {
@@ -17,11 +17,20 @@ GET http://localhost:3000/api/posts/2/comments?page=1&pageSize=10
 
 ###
 
-PUT http://localhost:3000/api/comments/1
+PUT http://localhost:3000/api/comments/2
 Content-Type: application/json
 
 {
   "nickname": "별칭1",
   "content": "수정 댓글",
-  "password": "kky1212!"
+  "password": "kky1212"
+}
+
+###
+
+DELETE http://localhost:3000/api/comments/5
+Content-Type: application/json
+
+{
+  "password": "kky1212"
 }

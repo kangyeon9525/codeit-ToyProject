@@ -111,7 +111,7 @@ export const updateComment = async (req, res, next) => {
     if (!isPasswordValid) {
       return res.status(403).json({ message: '비밀번호가 틀렸습니다' });
     }
-    
+
     // 댓글 수정
     comment.nickname = nickname || comment.nickname; // 닉네임 변경
     comment.content = content || comment.content; // 내용 변경
@@ -126,6 +126,34 @@ export const updateComment = async (req, res, next) => {
       content: updatedComment.content,
       createdAt: updatedComment.createdAt,
     });
+  } catch (error) {
+    next(error); // 에러 처리 미들웨어로 전달
+  }
+};
+
+// 댓글 삭제 함수
+export const deleteComment = async (req, res, next) => {
+  try {
+    const { commentId } = req.params;
+    const { password } = req.body; 
+
+    // 댓글 찾기
+    const comment = await Comment.findById(commentId);
+    if (!comment) {
+      return res.status(404).json({ message: '존재하지 않습니다' });
+    }
+
+    // 댓글 비밀번호 검증
+    const isPasswordValid = await bcrypt.compare(password, comment.password);
+    if (!isPasswordValid) {
+      return res.status(403).json({ message: '비밀번호가 틀렸습니다' });
+    }
+
+    // 댓글 삭제
+    await Comment.deleteOne({ id: commentId });
+
+    // 성공 응답
+    return res.status(200).json({ message: '답글 삭제 성공' });
   } catch (error) {
     next(error); // 에러 처리 미들웨어로 전달
   }
