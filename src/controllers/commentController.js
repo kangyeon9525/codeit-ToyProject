@@ -88,4 +88,45 @@ export const getComments = async (req, res, next) => {
   } catch (error) {
     next(error); // 에러 처리 미들웨어로 전달
   }
-}
+};
+
+// 댓글 수정 함수
+export const updateComment = async (req, res, next) => {
+  try {
+    const { commentId } = req.params;
+    const {
+      nickname,
+      content,
+      password
+    } = req.body;
+
+    // 댓글 찾기
+    const comment = await Comment.findById(commentId);
+    if (!comment) {
+      return res.status(404).json({ message: '존재하지 않습니다' });
+    }
+
+    // 비밀번호 확인
+    const isPasswordValid = await bcrypt.compare(password, comment.password);
+    if (!isPasswordValid) {
+      return res.status(403).json({ message: '비밀번호가 틀렸습니다' });
+    }
+    
+    // 댓글 수정
+    comment.nickname = nickname || comment.nickname; // 닉네임 변경
+    comment.content = content || comment.content; // 내용 변경
+
+    // 수정된 댓글 저장
+    const updatedComment = await comment.save();
+
+    // 성공 응답
+    return res.status(200).json({
+      id: updatedComment._id,
+      nickname: updatedComment.nickname,
+      content: updatedComment.content,
+      createdAt: updatedComment.createdAt,
+    });
+  } catch (error) {
+    next(error); // 에러 처리 미들웨어로 전달
+  }
+};
