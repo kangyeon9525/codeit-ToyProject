@@ -150,7 +150,7 @@ export const deleteComment = async (req, res, next) => {
     }
 
     // 댓글 삭제
-    await Comment.deleteOne({ id: commentId });
+    await Comment.deleteOne({ _id: commentId });
 
     // 성공 응답
     return res.status(200).json({ message: '답글 삭제 성공' });

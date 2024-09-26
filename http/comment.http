@@ -2,14 +2,14 @@ POST http://localhost:3000/api/posts/2/comments
 Content-Type: application/json
 
 {
-  "nickname": "별칭2",
-  "content": "답글2",
+  "nickname": "별칭10",
+  "content": "답글10",
   "password": "kky1212"
 }
 
 ###
 
-GET http://localhost:3000/api/posts/1/comments?page=1&pageSize=10
+GET http://localhost:3000/api/posts/2/comments?page=1&pageSize=10
 
 ### 
 
@@ -17,7 +17,7 @@ GET http://localhost:3000/api/posts/2/comments?page=1&pageSize=10
 
 ###
 
-PUT http://localhost:3000/api/comments/2
+PUT http://localhost:3000/api/comments/6
 Content-Type: application/json
 
 {
@@ -28,7 +28,7 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/api/comments/5
+DELETE http://localhost:3000/api/comments/6
 Content-Type: application/json
 
 {
