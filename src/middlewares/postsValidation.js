@@ -126,4 +126,4 @@ export const validateGetPostDetailRequest = (req, res, next) => {
   }
 
   next();
-}
+};

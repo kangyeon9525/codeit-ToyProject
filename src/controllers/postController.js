@@ -1,5 +1,6 @@
 import Post from '../models/post.js';
 import Group from '../models/group.js';
+import { checkBadgeConditions } from '../services/badgeService.js';
 import bcrypt from 'bcryptjs';
 
 // 게시글(추억) 등록 함수
@@ -26,10 +27,10 @@ export const createPost = async (req, res, next) => {
 
     // 이미지 업로드된 경우, 이미지 URL 생성
     let imageUrl = '';
-    if (req.files && req.files.image) {  // image 필드 확인
-      imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.files.image[0].filename}`;
-    } else if (req.files && req.files.imageUrl) {  // imageUrl 필드 확인
+    if (req.files && req.files.imageUrl) { // imageUrl 필드 확인
       imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.files.imageUrl[0].filename}`;
+    } else if (req.body.imageUrl === '') { // 이미지 URL을 빈 문자열로 보내면 이미지 삭제
+      imageUrl = ''; // 이미지 URL 삭제
     }
 
     // 그룹 비밀번호 검증
@@ -56,6 +57,9 @@ export const createPost = async (req, res, next) => {
     });
 
     const savedPost = await post.save();
+
+    // 배지 조건 확인 및 갱신
+    checkBadgeConditions(groupId);
 
     return res.status(201).json({
       id: savedPost._id,
@@ -172,11 +176,12 @@ export const updatePost = async (req, res, next) => {
     }
 
     // 이미지 업로드된 경우, 이미지 URL 생성
-    if (req.files && req.files.image) { // image 필드 확인
-      post.imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.files.image[0].filename}`;
-    } else if (req.files && req.files.imageUrl) {  // imageUrl 필드 확인
+    if (req.files && req.files.imageUrl) { // imageUrl 필드 확인
       post.imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.files.imageUrl[0].filename}`;
+    } else if (req.body.imageUrl === '') { // 이미지 URL을 빈 문자열로 보내면 이미지 삭제
+      post.imageUrl = ''; // 이미지 URL 삭제
     }
+    
     // 게시글 비밀번호 검증
     const isPasswordValid = await bcrypt.compare(postPassword, post.postPassword);
     if (!isPasswordValid) {
@@ -320,11 +325,17 @@ export const likePost = async (req, res, next) => {
       return res.status(404).json({ message: '존재하지 않습니다' });
     }
 
+    // 게시글이 속한 그룹의 groupId 가져오기
+    const groupId = post.groupId; // 게시글에서 groupId 추출
+
     // 게시글 공감수 증가
     post.likeCount += 1;
 
     // 게시글 저장
     await post.save();
+
+    // 배지 조건 확인 및 갱신
+    checkBadgeConditions(groupId);
 
     // 성공 응답
     return res.status(200).json({ message: '게시글 공감하기 성공' });

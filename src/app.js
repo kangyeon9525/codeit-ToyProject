@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
+import '../src/jobs/cronJob.js'; // 크론 잡 실행
 import cors from 'cors';
 import { errorHandler } from '../src/middlewares/errorHandler.js';
 import groupRoutes from '../src/routes/groupRoutes.js';
