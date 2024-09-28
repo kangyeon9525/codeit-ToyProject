@@ -1,5 +1,5 @@
 POST http://localhost:3000/api/groups
-Content-Type: application/json
+Content-Type: multipart/form-data
 
 {
   "name": "group4",
@@ -29,7 +29,7 @@ GET http://localhost:3000/api/groups?page=1&pageSize=10&sortBy=mostLiked&keyword
 ### 
 
 PUT http://localhost:3000/api/groups/1
-Content-Type: application/json
+Content-Type: multipart/form-data
 
 {
   "name": "group1",

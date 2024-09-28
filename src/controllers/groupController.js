@@ -7,10 +7,14 @@ export const registerGroup = async (req, res, next) => {
     const {
       name,
       password,
-      imageUrl,
       isPublic,
       introduction
     } = req.body;
+
+    let imageUrl = '';
+    if (req.file) { // 이미지 업로드된 경우, 이미지 URL 생성
+      imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10); // 비밀번호 해시화
 
@@ -108,7 +112,6 @@ export const updateGroup = async (req, res, next) => {
     const {
       name,
       password,
-      imageUrl,
       isPublic,
       introduction
     } = req.body;
@@ -119,6 +122,10 @@ export const updateGroup = async (req, res, next) => {
       return res.status(404).json({ message: '존재하지 않습니다' }); // 그룹이 존재 X
     }
 
+    if (req.file) { // 이미지가 업로드된 경우, 이미지 URL 업데이트
+      group.imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    }
+
     // 비밀번호 검증
     const isPasswordValid = await bcrypt.compare(password, group.password);
     if (!isPasswordValid) {
@@ -127,7 +134,6 @@ export const updateGroup = async (req, res, next) => {
 
     // 그룹 정보 업데이트
     group.name = name || group.name;
-    group.imageUrl = imageUrl || group.imageUrl;
     group.isPublic = typeof isPublic === 'boolean' ? isPublic : group.isPublic;
     group.introduction = introduction || group.introduction;
 

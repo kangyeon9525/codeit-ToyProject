@@ -12,4 +12,7 @@ const storage = multer.diskStorage({
   }
 });
 
-export const upload = multer({ storage }).single('image'); // 하나의 이미지 업로드
+export const upload = multer({ storage }).fields([
+  { name: 'image', maxCount: 1 }, // image 필드 처리
+  { name: 'imageUrl', maxCount: 1 } // imageUrl 필드 처리
+]);
