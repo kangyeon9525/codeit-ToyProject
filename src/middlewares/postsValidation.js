@@ -47,7 +47,6 @@ export const validateUpdatePostRequest = (req, res, next) => {
     title,
     content,
     postPassword,
-    imageUrl,
     tags,
     location,
     moment,
@@ -69,9 +68,6 @@ export const validateUpdatePostRequest = (req, res, next) => {
   if (content && typeof content !== 'string') {
     return res.status(400).json({ message: '잘못된 요청입니다: 내용은 문자열이어야 합니다.' });
   }
-  if (imageUrl && typeof imageUrl !== 'string') {
-    return res.status(400).json({ message: '잘못된 요청입니다: 이미지 URL은 문자열이어야 합니다.' });
-  }
   if (tags && !Array.isArray(tags)) {
     return res.status(400).json({ message: '잘못된 요청입니다: 태그는 문자열 배열이어야 합니다.' });
   }
@@ -81,8 +77,15 @@ export const validateUpdatePostRequest = (req, res, next) => {
   if (moment && isNaN(Date.parse(moment))) {
     return res.status(400).json({ message: '잘못된 요청입니다: 유효한 날짜를 입력하세요.' });
   }
-  if (isPublic !== undefined && typeof isPublic !== 'boolean') {
-    return res.status(400).json({ message: '잘못된 요청입니다: 공개 여부는 true 또는 false여야 합니다.' });
+  // isPublic 값이 문자열로 전달될 수 있으므로 이를 boolean으로 변환
+  if (isPublic !== undefined) {
+    if (isPublic === 'true') {
+      req.body.isPublic = true;
+    } else if (isPublic === 'false') {
+      req.body.isPublic = false;
+    } else if (typeof isPublic !== 'boolean') {
+      return res.status(400).json({ message: '잘못된 요청입니다: 공개 여부는 true 또는 false여야 합니다.' });
+    }
   }
 
   // 모든 검증을 통과하면 다음 미들웨어로 이동

@@ -11,9 +11,12 @@ export const registerGroup = async (req, res, next) => {
       introduction
     } = req.body;
 
+    // 이미지 업로드된 경우, 이미지 URL 생성
     let imageUrl = '';
-    if (req.file) { // 이미지 업로드된 경우, 이미지 URL 생성
-      imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    if (req.files && req.files.image) {  // image 필드 확인
+      imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.files.image[0].filename}`;
+    } else if (req.files && req.files.imageUrl) { // imageUrl 필드 확인
+      imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.files.imageUrl[0].filename}`;
     }
 
     const hashedPassword = await bcrypt.hash(password, 10); // 비밀번호 해시화
@@ -122,8 +125,11 @@ export const updateGroup = async (req, res, next) => {
       return res.status(404).json({ message: '존재하지 않습니다' }); // 그룹이 존재 X
     }
 
-    if (req.file) { // 이미지가 업로드된 경우, 이미지 URL 업데이트
-      group.imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    // 이미지 업로드된 경우, 이미지 URL 생성
+    if (req.files && req.files.image) {  // image 필드 확인
+      group.imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.files.image[0].filename}`;
+    } else if (req.files && req.files.imageUrl) { // imageUrl 필드 확인
+      group.imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.files.imageUrl[0].filename}`;
     }
 
     // 비밀번호 검증

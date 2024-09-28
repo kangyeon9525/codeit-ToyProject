@@ -12,7 +12,6 @@ export const createPost = async (req, res, next) => {
       content,
       postPassword,
       groupPassword,
-      imageUrl,
       tags,
       location,
       moment,
@@ -23,6 +22,14 @@ export const createPost = async (req, res, next) => {
     const group = await Group.findById(groupId);
     if (!group) {
       return res.status(404).json({ message: '그룹을 찾을 수 없습니다.'});
+    }
+
+    // 이미지 업로드된 경우, 이미지 URL 생성
+    let imageUrl = '';
+    if (req.files && req.files.image) {  // image 필드 확인
+      imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.files.image[0].filename}`;
+    } else if (req.files && req.files.imageUrl) {  // imageUrl 필드 확인
+      imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.files.imageUrl[0].filename}`;
     }
 
     // 그룹 비밀번호 검증
@@ -152,7 +159,6 @@ export const updatePost = async (req, res, next) => {
       title,
       content,
       postPassword,
-      imageUrl,
       tags,
       location,
       moment,
@@ -163,8 +169,14 @@ export const updatePost = async (req, res, next) => {
     const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({ message: '존재하지 않습니다' });
-    } 
+    }
 
+    // 이미지 업로드된 경우, 이미지 URL 생성
+    if (req.files && req.files.image) { // image 필드 확인
+      post.imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.files.image[0].filename}`;
+    } else if (req.files && req.files.imageUrl) {  // imageUrl 필드 확인
+      post.imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.files.imageUrl[0].filename}`;
+    }
     // 게시글 비밀번호 검증
     const isPasswordValid = await bcrypt.compare(postPassword, post.postPassword);
     if (!isPasswordValid) {
@@ -175,7 +187,6 @@ export const updatePost = async (req, res, next) => {
     post.nickname = nickname || post.nickname;
     post.title = title || post.title;
     post.content = content || post.content;
-    post.imageUrl = imageUrl || post.imageUrl;
     post.tags = tags || post.tags;
     post.location = location || post.location;
     post.moment = moment || post.moment;
