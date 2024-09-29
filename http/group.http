@@ -41,7 +41,7 @@ Content-Type: multipart/form-data
 
 ###
 
-DELETE http://localhost:3000/api/groups/6
+DELETE http://localhost:3000/api/groups/7
 Content-Type: application/json
 
 {
