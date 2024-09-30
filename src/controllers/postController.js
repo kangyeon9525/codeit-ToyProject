@@ -13,6 +13,7 @@ export const createPost = async (req, res, next) => {
       content,
       postPassword,
       groupPassword,
+      imageUrl,
       tags,
       location,
       moment,
@@ -23,14 +24,6 @@ export const createPost = async (req, res, next) => {
     const group = await Group.findById(groupId);
     if (!group) {
       return res.status(404).json({ message: '그룹을 찾을 수 없습니다.'});
-    }
-
-    // 이미지 업로드된 경우, 이미지 URL 생성
-    let imageUrl = '';
-    if (req.files && req.files.imageUrl) { // imageUrl 필드 확인
-      imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.files.imageUrl[0].filename}`;
-    } else if (req.body.imageUrl === '') { // 이미지 URL을 빈 문자열로 보내면 이미지 삭제
-      imageUrl = ''; // 이미지 URL 삭제
     }
 
     // 그룹 비밀번호 검증
@@ -163,6 +156,7 @@ export const updatePost = async (req, res, next) => {
       title,
       content,
       postPassword,
+      imageUrl,
       tags,
       location,
       moment,
@@ -174,18 +168,16 @@ export const updatePost = async (req, res, next) => {
     if (!post) {
       return res.status(404).json({ message: '존재하지 않습니다' });
     }
-
-    // 이미지 업로드된 경우, 이미지 URL 생성
-    if (req.files && req.files.imageUrl) { // imageUrl 필드 확인
-      post.imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.files.imageUrl[0].filename}`;
-    } else if (req.body.imageUrl === '') { // 이미지 URL을 빈 문자열로 보내면 이미지 삭제
-      post.imageUrl = ''; // 이미지 URL 삭제
-    }
     
     // 게시글 비밀번호 검증
     const isPasswordValid = await bcrypt.compare(postPassword, post.postPassword);
     if (!isPasswordValid) {
       return res.status(403).json({ message: '비밀번호가 틀렸습니다' });
+    }
+
+    // 이미지 URL 업데이트 (이미지가 빈 문자열인 경우 이미지 삭제)
+    if (imageUrl !== undefined) {
+      post.imageUrl = imageUrl || ''; // 클라이언트가 보내준 이미지 URL로 갱신
     }
 
     // 게시글 정보 업데이트

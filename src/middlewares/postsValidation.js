@@ -47,6 +47,7 @@ export const validateUpdatePostRequest = (req, res, next) => {
     title,
     content,
     postPassword,
+    imageUrl,
     tags,
     location,
     moment,
@@ -67,6 +68,9 @@ export const validateUpdatePostRequest = (req, res, next) => {
   }
   if (content && typeof content !== 'string') {
     return res.status(400).json({ message: '잘못된 요청입니다: 내용은 문자열이어야 합니다.' });
+  }
+  if (imageUrl && typeof imageUrl !== 'string') {
+    return res.status(400).json({ message: '잘못된 요청입니다: 이미지 URL은 문자열이어야 합니다.' });
   }
   if (tags && !Array.isArray(tags)) {
     return res.status(400).json({ message: '잘못된 요청입니다: 태그는 문자열 배열이어야 합니다.' });

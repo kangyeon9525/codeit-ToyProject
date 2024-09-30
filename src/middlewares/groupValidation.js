@@ -12,7 +12,7 @@ export const validateGroupRequest = (req, res, next) => {
 
 // 그룹 수정 요청 유효성 검사 미들웨어
 export const validateUpdateGroupRequest = (req, res, next) => {
-  const { name, password, isPublic, introduction } = req.body;
+  const { name, password, imageUrl, isPublic, introduction } = req.body;
 
   // 허용된 필드만 존재하는지 확인
   const allowedFields = ['name', 'password', 'imageUrl', 'isPublic', 'introduction'];
