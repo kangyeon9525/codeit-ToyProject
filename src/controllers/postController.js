@@ -51,6 +51,10 @@ export const createPost = async (req, res, next) => {
 
     const savedPost = await post.save();
 
+    // 그룹의 postCount 증가
+    group.postCount += 1;
+    await group.save();
+
     // 배지 조건 확인 및 갱신
     checkBadgeConditions(groupId);
 
@@ -233,6 +237,10 @@ export const deletePost = async (req, res, next) => {
 
     // 게시글 삭제
     await Post.deleteOne({ id: postId });
+
+    // 그룹의 postCount 감소
+    group.postCount -= 1;
+    await group.save();
 
     // 성공 응답
     return res.status(200).json({ message: '게시글 삭제 성공' });
