@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import Post from "../models/post.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // 그룹 ID를 참조해 더미 데이터 생성
 export const seedPosts = async () => {
@@ -196,7 +199,7 @@ export const seedPosts = async () => {
 
   try {
     // MongoDB 연결
-    await mongoose.connect("mongodb+srv://kangyeon9525:kky1212@codeit.ukgol.mongodb.net/?retryWrites=true&w=majority&appName=codeit");
+    await mongoose.connect(process.env.DATABASE_URL);
 
     // 비밀번호 해시화 (postPassword)
     for (let post of dummyPosts) {

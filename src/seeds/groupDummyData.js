@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import Group from "../models/group.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const seedGroups = async () => {
   const dummyGroups = [
@@ -73,7 +76,7 @@ export const seedGroups = async () => {
 
   try {
     // MongoDB 연결
-    await mongoose.connect("mongodb+srv://kangyeon9525:kky1212@codeit.ukgol.mongodb.net/?retryWrites=true&w=majority&appName=codeit");
+    await mongoose.connect(process.env.DATABASE_URL);
 
     // 비밀번호 해시화
     for (let group of dummyGroups) {

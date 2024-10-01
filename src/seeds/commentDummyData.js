@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import Comment from "../models/comment.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // 게시글 ID를 참조해 더미 데이터 생성
 export const seedComments = async () => {
@@ -107,7 +110,7 @@ export const seedComments = async () => {
 
   try {
     // MongoDB 연결
-    await mongoose.connect("mongodb+srv://kangyeon9525:kky1212@codeit.ukgol.mongodb.net/?retryWrites=true&w=majority&appName=codeit");
+    await mongoose.connect(process.env.DATABASE_URL);
 
     // 비밀번호 해시화 (password)
     for (let comment of dummyComments) {
