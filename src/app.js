@@ -8,6 +8,9 @@ import groupRoutes from '../src/routes/groupRoutes.js';
 import postRoutes from '../src/routes/postRoutes.js';
 import commentRoutes from '../src/routes/commentRoutes.js';
 import imageRoutes from '../src/routes/imageRoutes.js';
+import { seedGroups } from '../src/seeds/groupDummyData.js';
+import { seedPosts } from '../src/seeds/postDummyData.js';
+import { seedComments } from '../src/seeds/commentDummyData.js';
 dotenv.config();
 
 const app = express();
@@ -33,8 +36,24 @@ app.use('/api', imageRoutes); // 이미지 라우터
 // 에러 핸들러 미들웨어
 app.use(errorHandler)
 
+// 서버 실행 시 시드 데이터 삽입
+const initializeDatabaseWithSeedData = async () => {
+  try {
+    await seedGroups(); // 그룹 시드 데이터 삽입
+    await seedPosts(); // 게시물 시드 데이터 삽입
+    await seedComments(); // 댓글 시드 데이터 삽입
+    console.log('Seed data inserted successfully');
+  } catch (err) {
+    console.error('Error inserting seed data:', err);
+  }
+};
+
 
 mongoose.connect(process.env.DATABASE_URL)
-  .then(() => console.log('Connected to DB'))
+  .then(async () => {
+    console.log('Connected to DB');
+    await initializeDatabaseWithSeedData(); // 시드 데이터 삽입 함수 호출
+  })
   .catch((err) => console.log('DB 연결 실패', err));
+  
 app.listen(process.env.PORT || 3000, () => console.log('Server Started'));
