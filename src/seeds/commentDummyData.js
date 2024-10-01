@@ -129,10 +129,7 @@ export const seedComments = async () => {
       { $set: { seq: 14 } }, // 마지막 _id가 14이므로 seq를 14로 설정
       { upsert: true } // 없으면 삽입
     );
-
-    mongoose.connection.close();
   } catch (err) {
     console.error(err);
-    mongoose.connection.close();
   }
 };

@@ -39,21 +39,32 @@ app.use(errorHandler)
 // 서버 실행 시 시드 데이터 삽입
 const initializeDatabaseWithSeedData = async () => {
   try {
-    await seedGroups(); // 그룹 시드 데이터 삽입
-    await seedPosts(); // 게시물 시드 데이터 삽입
-    await seedComments(); // 댓글 시드 데이터 삽입
-    console.log('Seed data inserted successfully');
+    // MongoDB 연결 상태 확인
+    if (mongoose.connection.readyState === 1) {  // 1은 'connected' 상태를 의미
+      await seedGroups(); // 그룹 시드 데이터 삽입
+      await seedPosts(); // 게시물 시드 데이터 삽입
+      await seedComments(); // 댓글 시드 데이터 삽입
+      console.log('Seed data inserted successfully');
+    } else {
+      console.log('MongoDB is not connected. Seed data insertion skipped.');
+    }
   } catch (err) {
     console.error('Error inserting seed data:', err);
   }
 };
 
 
+
 mongoose.connect(process.env.DATABASE_URL)
   .then(async () => {
     console.log('Connected to DB');
-    await initializeDatabaseWithSeedData(); // 시드 데이터 삽입 함수 호출
+    
+    // DB 연결이 완료된 후 시드 데이터 삽입 함수 호출
+    await initializeDatabaseWithSeedData();
   })
-  .catch((err) => console.log('DB 연결 실패', err));
+  .catch((err) => {
+    console.log('DB 연결 실패', err);
+  });
+
   
 app.listen(process.env.PORT || 3000, () => console.log('Server Started'));

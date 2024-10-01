@@ -96,9 +96,7 @@ export const seedGroups = async () => {
       { upsert: true } // 없으면 삽입
     );
     console.log('Counters collection updated successfully');
-    mongoose.connection.close();
   } catch (err) {
     console.error(err);
-    mongoose.connection.close();
   }
 };
