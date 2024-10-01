@@ -1,15 +1,15 @@
-POST http://localhost:3000/api/groups/2/posts
-Content-Type: multipart/form-data
+POST http://localhost:3000/api/groups/5/posts
+Content-Type: application/json
 
 {
-	"nickname": "별명6",
-	"title": "제목6",
-	"content": "내용6",
-	"postPassword": "rkddus12",
-	"groupPassword": "kky1212",
-	"imageUrl": "http://www.example2.com",
+	"nickname": "user12",
+	"title": "12 번째 게시물",
+	"content": "12 번째 게시물 내용",
+	"postPassword": "1234",
+	"groupPassword": "123",
+	"imageUrl": "https://www.shutterstock.com/shutterstock/photos/2455601727/display_1500/stock-photo-cute-character-d-image-of-candy-floss-with-stick-2455601727.jpg",
 	"tags": [ "string", "string" ],
-	"location": "위치",
+	"location": "Seoul",
 	"moment": "2024-02-21",
 	"isPublic": true
 }

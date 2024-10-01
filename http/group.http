@@ -1,12 +1,12 @@
 POST http://localhost:3000/api/groups
-Content-Type: multipart/form-data
+Content-Type: application/json
 
 {
-  "name": "group4",
-  "password": "kky1212",
+  "name": "group10",
+  "password": "123",
   "imageUrl": "www.example.com",
-  "isPublic": false,
-  "introduction": "설명"
+  "isPublic": true,
+  "introduction": "설명10"
 }
 
 ###
@@ -29,23 +29,23 @@ GET http://localhost:3000/api/groups?page=1&pageSize=10&sortBy=mostLiked&keyword
 ### 
 
 PUT http://localhost:3000/api/groups/1
-Content-Type: multipart/form-data
+Content-Type: application/json
 
 {
-  "name": "group1",
-  "password": "kky1212",
-  "imageUrl": "https://example.com/new-image.jpg",
+  "name": "group5-1",
+  "password": "123",
+  "imageUrl": "",
   "isPublic": true,
-  "introduction": "새로운 그룹 소개"
+  "introduction": "그룹소개 수정"
 }
 
 ###
 
-DELETE http://localhost:3000/api/groups/7
+DELETE http://localhost:3000/api/groups/6
 Content-Type: application/json
 
 {
-  "password": "kky1212"
+  "password": "123"
 }
 ###
 
