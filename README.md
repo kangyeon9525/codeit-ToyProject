@@ -30,7 +30,8 @@
 ## 🛠 기술 스택
 - **Environment:** Visual Studio Code, Git, GitHub
 - **Frontend:** React, Axios
-- **Backend:** Node.js, MongoDB
+- **Backend:** Node.js, MongoDB, AWS S3
+- **Deployment** Render (백엔드 서버 배포)
 - **Communication:** Notion, GoogleMeet
 
 ---
