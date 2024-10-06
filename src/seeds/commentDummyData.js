@@ -18,7 +18,7 @@ export const seedComments = async () => {
         postId: parseInt(postId), // postId는 문자열이므로 정수로 변환
         nickname: `commenter${commentId}`,
         content: `댓글${commentId}`,
-        password: await bcrypt.hash("12345", 10), // 비밀번호를 12345로 통일하고 해시화
+        password: "12345", // 비밀번호를 12345로 통일하고 해시화
       };
 
       dummyComments.push(comment);

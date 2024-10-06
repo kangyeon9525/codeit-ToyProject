@@ -17,7 +17,7 @@ export const seedGroups = async () => {
     const group = {
       _id: i,
       name: `그룹${i}`,
-      password: await bcrypt.hash("123", 10),
+      password: "123",
       imageUrl: "https://codeit-zogakzip-bucket.s3.ap-northeast-2.amazonaws.com/exp1-1728110891671-606588665.png",
       isPublic: isPublic,
       introduction: `설명${i}`,

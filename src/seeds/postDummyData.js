@@ -9,7 +9,7 @@ dotenv.config();
 export const seedPosts = async () => {
   const dummyPosts = [];
   const startDate = new Date("2024-09-27T20:00:00.000Z"); // 그룹 생성일보다 하루 뒤로 설정
-  const groupPostCount = [9, 5, 3]; // 그룹별 포스트 개수
+  const groupPostCount = [9, 5, 3, 0, 2]; // 그룹별 포스트 개수
   let postId = 1; // _id 값을 순차적으로 증가
 
   for (let groupId = 1; groupId <= groupPostCount.length; groupId++) {
@@ -24,7 +24,7 @@ export const seedPosts = async () => {
         nickname: `user${postId}`,
         title: `${postId}번째 게시물`,
         content: `${postId}번째 게시물의 내용입니다.`,
-        postPassword: await bcrypt.hash("1234", 10), // postPassword를 1234로 통일하고 해시화
+        postPassword: "1234", // postPassword를 1234로 통일하고 해시화
         imageUrl: "https://codeit-zogakzip-bucket.s3.ap-northeast-2.amazonaws.com/exp5-1727874138263-888538301.png",
         tags: [`tag${postId}`, `tag${postId + 1}`],
         location: "Daegu",
