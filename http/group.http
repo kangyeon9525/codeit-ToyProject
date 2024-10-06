@@ -54,10 +54,10 @@ GET http://localhost:3000/api/groups/1
 ###
 
 POST http://localhost:3000/api/groups/4/verify-password
-Content-Type: application/json
+Content-Type: multipart/form-data
 
 {
-  "password": "kky1212"
+  "password": "123"
 }
 
 ###

@@ -236,11 +236,10 @@ export const deletePost = async (req, res, next) => {
     }
 
     // 게시글 삭제
-    await Post.deleteOne({ id: postId });
+    await Post.findByIdAndDelete(postId);
 
     // 그룹의 postCount 감소
-    group.postCount -= 1;
-    await group.save();
+    await Group.findByIdAndUpdate(post.groupId, { $inc: { postCount: -1 } });
 
     // 성공 응답
     return res.status(200).json({ message: '게시글 삭제 성공' });

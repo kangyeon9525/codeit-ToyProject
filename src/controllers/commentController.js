@@ -154,11 +154,11 @@ export const deleteComment = async (req, res, next) => {
     }
 
     // 댓글 삭제
-    await Comment.deleteOne({ _id: commentId });
+    await Comment.findByIdAndDelete(commentId);
+    await Post.findByIdAndUpdate(comment.postId, { $inc: { commentCount: -1 } });
 
     // 게시글의 commentCount 감소
-    post.commentCount -= 1;
-    await post.save();
+    await Post.findByIdAndUpdate(comment.postId, { $inc: { commentCount: -1 } });
 
     // 성공 응답
     return res.status(200).json({ message: '답글 삭제 성공' });
