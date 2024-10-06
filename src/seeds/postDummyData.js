@@ -7,195 +7,39 @@ dotenv.config();
 
 // 그룹 ID를 참조해 더미 데이터 생성
 export const seedPosts = async () => {
-  const dummyPosts = [
-    {
-      _id: 1,
-      groupId: 1, // groupId가 1인 그룹에 게시물 연결
-      nickname: "user1",
-      title: "첫 번째 게시물",
-      content: "첫 번째 게시물의 내용입니다.",
-      postPassword: "1234",
-      imageUrl: "https://www.shutterstock.com/shutterstock/photos/2455601727/display_1500/stock-photo-cute-character-d-image-of-candy-floss-with-stick-2455601727.jpg",
-      tags: ["tag1", "tag2"],
-      location: "Seoul",
-      moment: "2024-09-26T20:00:00.000Z",
-      isPublic: true,
-      likeCount: 10,
-      commentCount: 2,
-      createdAt: new Date("2024-10-02T23:00:00.000Z"),
-      updatedAt: new Date("2024-10-02T23:00:00.000Z")
-    },
-    {
-      _id: 2,
-      groupId: 1,
-      nickname: "user2",
-      title: "두 번째 게시물",
-      content: "두 번째 게시물의 내용입니다.",
-      postPassword: "password123",
-      imageUrl: "https://www.shutterstock.com/shutterstock/photos/2455601727/display_1500/stock-photo-cute-character-d-image-of-candy-floss-with-stick-2455601727.jpg",
-      tags: ["tag1", "tag2"],
-      location: "Busan",
-      moment: "2024-09-27T20:00:00.000Z",
-      isPublic: false,
-      likeCount: 15,
-      commentCount: 2,
-      createdAt: new Date("2024-10-02T23:00:00.000Z"),
-      updatedAt: new Date("2024-10-02T23:00:00.000Z")
-    },
-    {
-      _id: 3,
-      groupId: 1, 
-      nickname: "user3",
-      title: "세 번째 게시물",
-      content: "세 번째 게시물의 내용입니다.",
-      postPassword: "1234",
-      imageUrl: "https://www.shutterstock.com/shutterstock/photos/2455601727/display_1500/stock-photo-cute-character-d-image-of-candy-floss-with-stick-2455601727.jpg",
-      tags: ["tag5", "tag6"],
-      location: "Daegu",
-      moment: "2024-09-28T20:00:00.000Z",
-      isPublic: true,
-      likeCount: 20,
-      commentCount: 3,
-      createdAt: new Date("2024-10-02T23:00:00.000Z"),
-      updatedAt: new Date("2024-10-02T23:00:00.000Z")
-    },
-    {
-      _id: 4,
-      groupId: 2,
-      nickname: "user4",
-      title: "네 번째 게시물",
-      content: "네 번째 게시물의 내용입니다.",
-      postPassword: "123",
-      imageUrl: "https://www.shutterstock.com/shutterstock/photos/2455601727/display_1500/stock-photo-cute-character-d-image-of-candy-floss-with-stick-2455601727.jpg",
-      tags: ["tag1", "tag2"],
-      location: "Daegu",
-      moment: "2024-09-28T20:00:00.000Z",
-      isPublic: true,
-      likeCount: 20,
-      commentCount: 2,
-      createdAt: new Date("2024-10-02T23:00:00.000Z"),
-      updatedAt: new Date("2024-10-02T23:00:00.000Z")
-    },
-    {
-      _id: 5,
-      groupId: 2,
-      nickname: "user5",
-      title: "다섯 번째 게시물",
-      content: "다섯 번째 게시물의 내용입니다.",
-      postPassword: "123",
-      imageUrl: "https://www.shutterstock.com/shutterstock/photos/2455601727/display_1500/stock-photo-cute-character-d-image-of-candy-floss-with-stick-2455601727.jpg",
-      tags: ["tag1", "tag2"],
-      location: "Daegu",
-      moment: "2024-09-28T20:00:00.000Z",
-      isPublic: false,
-      likeCount: 20,
-      commentCount: 3,
-      createdAt: new Date("2024-10-02T23:00:00.000Z"),
-      updatedAt: new Date("2024-10-02T23:00:00.000Z")
-    },
-    {
-      _id: 6,
-      groupId: 3,
-      nickname: "user6",
-      title: "여섯 번째 게시물",
-      content: "여섯 번째 게시물의 내용입니다.",
-      postPassword: "123",
-      imageUrl: "https://www.shutterstock.com/shutterstock/photos/2455601727/display_1500/stock-photo-cute-character-d-image-of-candy-floss-with-stick-2455601727.jpg",
-      tags: ["tag1", "tag2"],
-      location: "Daegu",
-      moment: "2024-09-28T20:00:00.000Z",
-      isPublic: true,
-      likeCount: 30,
-      commentCount: 1,
-      createdAt: new Date("2024-10-02T23:00:00.000Z"),
-      updatedAt: new Date("2024-10-02T23:00:00.000Z")
-    },
-    {
-      _id: 7,
-      groupId: 4,
-      nickname: "user7",
-      title: "일곱 번째 게시물",
-      content: "일곱 번째 게시물의 내용입니다.",
-      postPassword: "123",
-      imageUrl: "https://www.shutterstock.com/shutterstock/photos/2455601727/display_1500/stock-photo-cute-character-d-image-of-candy-floss-with-stick-2455601727.jpg",
-      tags: ["tag1", "tag2"],
-      location: "Daegu",
-      moment: "2024-09-28T20:00:00.000Z",
-      isPublic: true,
-      likeCount: 20,
-      commentCount: 1,
-      createdAt: new Date("2024-10-02T23:00:00.000Z"),
-      updatedAt: new Date("2024-10-02T23:00:00.000Z")
-    },
-    {
-      _id: 8,
-      groupId: 4,
-      nickname: "user8",
-      title: "여덟 번째 게시물",
-      content: "여덟 번째 게시물의 내용입니다.",
-      postPassword: "123",
-      imageUrl: "https://www.shutterstock.com/shutterstock/photos/2455601727/display_1500/stock-photo-cute-character-d-image-of-candy-floss-with-stick-2455601727.jpg",
-      tags: ["tag1", "tag2"],
-      location: "Daegu",
-      moment: "2024-09-28T20:00:00.000Z",
-      isPublic: false,
-      likeCount: 10,
-      commentCount: 0,
-      createdAt: new Date("2024-10-02T23:00:00.000Z"),
-      updatedAt: new Date("2024-10-02T23:00:00.000Z")
-    },
-    {
-      _id: 9,
-      groupId: 4,
-      nickname: "user9",
-      title: "아홉 번째 게시물",
-      content: "아홉 번째 게시물의 내용입니다.",
-      postPassword: "123",
-      imageUrl: "https://www.shutterstock.com/shutterstock/photos/2455601727/display_1500/stock-photo-cute-character-d-image-of-candy-floss-with-stick-2455601727.jpg",
-      tags: ["tag1", "tag2"],
-      location: "Daegu",
-      moment: "2024-09-28T20:00:00.000Z",
-      isPublic: true,
-      likeCount: 9999,
-      commentCount: 0,
-      createdAt: new Date("2024-10-02T23:00:00.000Z"),
-      updatedAt: new Date("2024-10-02T23:00:00.000Z")
-    },
-    {
-      _id: 10,
-      groupId: 4,
-      nickname: "user10",
-      title: "열 번째 게시물",
-      content: "열 번째 게시물의 내용입니다.",
-      postPassword: "123",
-      imageUrl: "https://www.shutterstock.com/shutterstock/photos/2455601727/display_1500/stock-photo-cute-character-d-image-of-candy-floss-with-stick-2455601727.jpg",
-      tags: ["tag1", "tag2"],
-      location: "Daegu",
-      moment: "2024-09-28T20:00:00.000Z",
-      isPublic: true,
-      likeCount: 9999,
-      commentCount: 0,
-      createdAt: new Date("2024-10-02T23:00:00.000Z"),
-      updatedAt: new Date("2024-10-02T23:00:00.000Z")
-    },
-    {
-      _id: 11,
-      groupId: 4,
-      nickname: "user11",
-      title: "11 번째 게시물",
-      content: "11 번째 게시물의 내용입니다.",
-      postPassword: "123",
-      imageUrl: "https://www.shutterstock.com/shutterstock/photos/2455601727/display_1500/stock-photo-cute-character-d-image-of-candy-floss-with-stick-2455601727.jpg",
-      tags: ["tag1", "tag2"],
-      location: "Daegu",
-      moment: "2024-09-28T20:00:00.000Z",
-      isPublic: false,
-      likeCount: 9999,
-      commentCount: 0,
-      createdAt: new Date("2024-10-02T23:00:00.000Z"),
-      updatedAt: new Date("2024-10-02T23:00:00.000Z")
+  const dummyPosts = [];
+  const startDate = new Date("2024-09-27T20:00:00.000Z"); // 그룹 생성일보다 하루 뒤로 설정
+  const groupPostCount = [9, 5, 3]; // 그룹별 포스트 개수
+  let postId = 1; // _id 값을 순차적으로 증가
+
+  for (let groupId = 1; groupId <= groupPostCount.length; groupId++) {
+    for (let i = 0; i < groupPostCount[groupId - 1]; i++) {
+      const isPublic = postId % 2 !== 0; // 홀수는 공개, 짝수는 비공개
+      const likeCount = Math.floor(Math.random() * 9999) + 1; // 1부터 9999 사이 랜덤 좋아요 수
+      const createdAt = new Date(startDate.getTime() + postId * 86400000); // 하루씩 추가된 생성일
+
+      const post = {
+        _id: postId,
+        groupId: groupId, // 그룹 1, 2, 3에 각각 포스트를 할당
+        nickname: `user${postId}`,
+        title: `${postId}번째 게시물`,
+        content: `${postId}번째 게시물의 내용입니다.`,
+        postPassword: await bcrypt.hash("1234", 10), // postPassword를 1234로 통일하고 해시화
+        imageUrl: "https://codeit-zogakzip-bucket.s3.ap-northeast-2.amazonaws.com/exp5-1727874138263-888538301.png",
+        tags: [`tag${postId}`, `tag${postId + 1}`],
+        location: "Daegu",
+        moment: new Date("2024-09-28T20:00:00.000Z"),
+        isPublic: isPublic,
+        likeCount: likeCount,
+        commentCount: 0, // commentCount를 전부 0으로 설정
+        createdAt: createdAt,
+        updatedAt: createdAt,
+      };
+
+      dummyPosts.push(post);
+      postId++; // 다음 포스트로 넘어감
     }
-  ];
+  }
 
   try {
     // MongoDB 연결
@@ -215,7 +59,7 @@ export const seedPosts = async () => {
     const db = mongoose.connection.db;
     await db.collection('counters').updateOne(
       { id: 'postIdCounter' }, 
-      { $set: { seq: 11 } }, // 마지막 _id가 11이므로 seq를 11로 설정
+      { $set: { seq: postId - 1 } }, // 마지막 _id가 마지막 postId값
       { upsert: true } // 없으면 삽입
     );
     console.log('Counters collection updated successfully');

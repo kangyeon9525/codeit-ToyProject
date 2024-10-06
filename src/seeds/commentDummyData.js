@@ -7,106 +7,24 @@ dotenv.config();
 
 // 게시글 ID를 참조해 더미 데이터 생성
 export const seedComments = async () => {
-  const dummyComments = [
-    {
-      _id: 1,
-      postId: 1, 
-      nickname: "commenter1",
-      content: "댓글1",
-      password: "12345",
-    },
-    {
-      _id: 2,
-      postId: 1, 
-      nickname: "commenter2",
-      content: "댓글2",
-      password: "12345",
-    },
-    {
-      _id: 3,
-      postId: 2, 
-      nickname: "commenter3",
-      content: "댓글3",
-      password: "12345",
-    },
-    {
-      _id: 4,
-      postId: 2, 
-      nickname: "commenter4",
-      content: "댓글4",
-      password: "12345",
-    },
-    {
-      _id: 5,
-      postId: 3, 
-      nickname: "commenter5",
-      content: "댓글5",
-      password: "12345",
-    },
-    {
-      _id: 6,
-      postId: 3, 
-      nickname: "commenter6",
-      content: "댓글6",
-      password: "12345",
-    },
-    {
-      _id: 7,
-      postId: 3, 
-      nickname: "commenter7",
-      content: "댓글7",
-      password: "12345",
-    },
-    {
-      _id: 8,
-      postId: 4, 
-      nickname: "commenter8",
-      content: "댓글8",
-      password: "12345",
-    },
-    {
-      _id: 9,
-      postId: 4, 
-      nickname: "commenter9",
-      content: "댓글9",
-      password: "12345",
-    },
-    {
-      _id: 10,
-      postId: 5, 
-      nickname: "commenter10",
-      content: "댓글10",
-      password: "12345",
-    },
-    {
-      _id: 11,
-      postId: 5, 
-      nickname: "commenter11",
-      content: "댓글11",
-      password: "12345",
-    },
-    {
-      _id: 12,
-      postId: 5, 
-      nickname: "commenter12",
-      content: "댓글12",
-      password: "12345",
-    },
-    {
-      _id: 13,
-      postId: 6, 
-      nickname: "commenter13",
-      content: "댓글13",
-      password: "12345",
-    },
-    {
-      _id: 14,
-      postId: 7, 
-      nickname: "commenter14",
-      content: "댓글14",
-      password: "12345",
-    },  
-  ];
+  const dummyComments = [];
+  const postCommentCount = { 1: 9, 2: 2, 3: 3, 4: 1 }; // 각 게시글에 할당될 댓글 개수
+  let commentId = 1;
+
+  for (let postId in postCommentCount) {
+    for (let i = 0; i < postCommentCount[postId]; i++) {
+      const comment = {
+        _id: commentId,
+        postId: parseInt(postId), // postId는 문자열이므로 정수로 변환
+        nickname: `commenter${commentId}`,
+        content: `댓글${commentId}`,
+        password: await bcrypt.hash("12345", 10), // 비밀번호를 12345로 통일하고 해시화
+      };
+
+      dummyComments.push(comment);
+      commentId++; // 다음 댓글로 넘어감
+    }
+  }
 
   try {
     // MongoDB 연결
@@ -126,7 +44,7 @@ export const seedComments = async () => {
     const db = mongoose.connection.db;
     await db.collection('counters').updateOne(
       { id: 'commentIdCounter' }, 
-      { $set: { seq: 14 } }, // 마지막 _id가 14이므로 seq를 14로 설정
+      { $set: { seq: commentId - 1 } }, // 마지막 _id가 마지막 commentId 값
       { upsert: true } // 없으면 삽입
     );
   } catch (err) {

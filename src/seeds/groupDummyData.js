@@ -6,73 +6,30 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const seedGroups = async () => {
-  const dummyGroups = [
-    {
-      _id: 1,
-      name: "group1",
-      password: "123",
-      imageUrl: "https://www.shutterstock.com/shutterstock/photos/2458991037/display_1500/stock-photo-abstract-dark-gritty-industrial-landscape-black-and-white-theme-techno-elements-silhouette-of-2458991037.jpg",
-      isPublic: true,
-      introduction: "설명1",
-      likeCount: 100,
-      badges: [],
-      postCount: 3,
-      createdAt: new Date("2024-09-26T20:00:00.000Z"),
-      updatedAt: new Date("2024-10-01T20:00:00.000Z"),
-    },
-    {
-      _id: 2,
-      name: "group2",
-      password: "123",
-      imageUrl: "https://www.shutterstock.com/shutterstock/photos/2458991037/display_1500/stock-photo-abstract-dark-gritty-industrial-landscape-black-and-white-theme-techno-elements-silhouette-of-2458991037.jpg",
-      isPublic: false,
-      introduction: "설명2",
-      likeCount: 50,
-      badges: [],
-      postCount: 2,
-      createdAt: new Date("2024-09-27T20:00:00.000Z"),
-      updatedAt: new Date("2024-10-01T20:00:00.000Z"),
-    },
-    {
-      _id: 3,
-      name: "group3",
-      password: "123",
-      imageUrl: "https://www.shutterstock.com/shutterstock/photos/2459631665/display_1500/stock-photo-young-asian-enjoy-drinking-boba-milk-tea-2459631665.jpg",
-      isPublic: true,
-      introduction: "설명3",
-      likeCount: 20,
-      badges: [],
-      postCount: 1,
-      createdAt: new Date("2024-09-28T20:00:00.000Z"),
-      updatedAt: new Date("2024-09-28T20:00:00.000Z"),
-    },
-    {
-      _id: 4,
-      name: "group4",
-      password: "123",
-      imageUrl: "https://www.shutterstock.com/shutterstock/photos/2459631665/display_1500/stock-photo-young-asian-enjoy-drinking-boba-milk-tea-2459631665.jpg",
-      isPublic: false,
-      introduction: "설명4",
-      likeCount: 9999,
-      badges: [],
-      postCount: 5,
-      createdAt: new Date("2024-09-29T20:00:00.000Z"),
-      updatedAt: new Date("2024-09-29T20:00:00.000Z"),
-    },
-    {
-      _id: 5,
-      name: "group5",
-      password: "123",
-      imageUrl: "https://www.shutterstock.com/shutterstock/photos/2458991037/display_1500/stock-photo-abstract-dark-gritty-industrial-landscape-black-and-white-theme-techno-elements-silhouette-of-2458991037.jpg",
-      isPublic: true,
-      introduction: "설명5",
-      likeCount: 10001,
+  const dummyGroups = [];
+  const startDate = new Date("2024-09-26T20:00:00.000Z");
+
+  for (let i = 1; i <= 18; i++) {
+    const isPublic = i % 2 !== 0;
+    const likeCount = Math.floor(Math.random() * 9999) + 1;
+    const createdAt = new Date(startDate.getTime() + i * 86400000); // 하루씩 추가
+
+    const group = {
+      _id: i,
+      name: `그룹${i}`,
+      password: await bcrypt.hash("123", 10),
+      imageUrl: "https://codeit-zogakzip-bucket.s3.ap-northeast-2.amazonaws.com/exp1-1728110891671-606588665.png",
+      isPublic: isPublic,
+      introduction: `설명${i}`,
+      likeCount: likeCount,
       badges: [],
       postCount: 0,
-      createdAt: new Date("2024-09-30T20:00:00.000Z"),
-      updatedAt: new Date("2024-09-30T20:00:00.000Z"),
-    },
-  ];
+      createdAt: createdAt,
+      updatedAt: createdAt,
+    };
+
+    dummyGroups.push(group);
+  }
 
   try {
     // MongoDB 연결
@@ -92,7 +49,7 @@ export const seedGroups = async () => {
     const db = mongoose.connection.db;
     await db.collection('counters').updateOne(
       { id: 'groupIdCounter' }, 
-      { $set: { seq: 5 } }, // 마지막 _id가 5이므로 seq를 5로 설정
+      { $set: { seq: dummyGroups.length } }, // 마지막 _id가 마지막 groupId값
       { upsert: true } // 없으면 삽입
     );
     console.log('Counters collection updated successfully');
