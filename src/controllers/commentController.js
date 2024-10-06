@@ -155,7 +155,6 @@ export const deleteComment = async (req, res, next) => {
 
     // 댓글 삭제
     await Comment.findByIdAndDelete(commentId);
-    await Post.findByIdAndUpdate(comment.postId, { $inc: { commentCount: -1 } });
 
     // 게시글의 commentCount 감소
     await Post.findByIdAndUpdate(comment.postId, { $inc: { commentCount: -1 } });
